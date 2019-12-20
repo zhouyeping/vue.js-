@@ -12,7 +12,7 @@ export default {
   name: 'App',
   data(){
     return {
-      head: ["姓名", "年龄"],
+      head: ["姓名", "年龄", "地区"],
       rowInfos: [
         {age: 23, name: "Tom", region: "shandong"},
         {age: 24, name: "Tina", region: "hebei"},
