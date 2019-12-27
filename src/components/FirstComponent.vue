@@ -4,7 +4,7 @@
     <table>
       <thead>
         <tr>
-          <th v-for="column in header" @click="handleTitleClick(column)">{{column.title}}
+          <th v-for="(column, index) in header" @click="handleTitleClick(header, index)">{{column.title}}
             <span class="arrow" v-bind:class="{asc: column.isAsc, desc: column.isDesc}"></span>
           </th>
         </tr>
@@ -15,6 +15,21 @@
           </tr>
       </tbody>
     </table>
+    <table id="table2">
+      <tr><td>first</td><td>second</td><td id="sspecial-td">third</td></tr>
+      <tr><td>first</td><td>second</td><td id="special-td">third</td></tr>
+    </table>
+    <div style="text-align: right;background-color: blue"><p style="width: 200px;background-color: cyan;">弄明白这个地方外边距合并的问题</p></div>
+    <ul>
+      <li>first</li>
+      <li>second</li>
+      <li>third</li>
+      <li>four</li>
+    </ul>
+    <!-- <div style="float:left">This is a div element</div>
+    <li style="float: left;">special</li> -->
+    <li style="background-color: lightblue">This is li element.</li>
+    <span>This is a span element.</span>
   </div>
 </template>
 
@@ -35,20 +50,29 @@
          window.alert(event.target.value);
         },
         /* 可能是传入的参数不正确 */
-        handleTitleClick(columnInfo){
-          console.log("this column info is: " + columnInfo.isAsc);
-          if (columnInfo.isAsc === false && columnInfo.isDesc === false){
-            this.$set(columnInfo, "isAsc", true);
+        handleTitleClick(headers, index){
+          console.log("this column info is: " + headers[index].isAsc);
+          if (headers[index].isAsc === false && headers[index].isDesc === false){
+            /* let newInfo = headers[index];
+            newInfo.isAsc = true;
+            this.$set(headers[index], index, newInfo); */
+            this.$set(this.header[index], "isAsc", true);
+
             console.log("asc is true");
-          }else if (columnInfo.isAsc === true){
-            this.$set(columnInfo, "isAsc", false);
-            this.$set(columnInfo, "isDesc", true);
+          }else if (headers[index].isAsc === true){
+            let newInfo = headers[index];
+            newInfo.isAsc = false;
+            newInfo.isDesc = true;
+            this.$set(headers, index, newInfo);
             console.log("desc is true");
           }else {
-            this.$set(columnInfo, "isDesc", false);
-            this.$set(columnInfo, "isAsc", true);
+            let newInfo = headers[index];
+            newInfo.isAsc = true;
+            newInfo.isDesc = false;
+            this.$set(headers, index, newInfo);
             console.log("asc is true");
           }
+          this.$forceUpdate();
         }
       },
       computed: {
@@ -86,6 +110,12 @@
 </script>
 
 <style scoped>
+  ul{
+    background-color: lightyellow;
+  }
+  ul  li{
+    background-color: lightblue;
+  }
   table{
     border-collapse: separate; border: 2px solid #42b983;
   }
@@ -118,6 +148,15 @@
     border-right: 4px solid transparent;
     border-top: 4px solid #fff;
   }
-
+  table#table2{
+    width: 900px;
+    border-collapse: collapse;
+  }
+  table#table2 td {
+    border: 1px solid black;
+  }
+  #special-td{
+    width: 400px;
+  }
 
 </style>

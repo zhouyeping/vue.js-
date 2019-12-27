@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <first-component :data="head" :columns="rowInfos"></first-component>
+    <complaint></complaint>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
 import FirstComponent from './components/Firstcomponent'
+import SecondComponent from "./components/SecondComponent";
+import Complaint from './components/Complaint'
 
 export default {
   name: 'App',
@@ -22,11 +24,16 @@ export default {
   },
   components: {
     HelloWorld,
-    FirstComponent
+    FirstComponent,
+    SecondComponent,
+    Complaint
   }
 }
 </script>
 
 <style>
-
+  html, body{
+    margin: 0;
+    padding: 0;
+  }
 </style>

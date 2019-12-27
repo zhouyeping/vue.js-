@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+    p{
+
+    }
+    span{
+
+    }
+    em{
+      padding: 10px 0;
+      border: solid 1px black;
+      width: 200px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <p><span>再说了白点就是：父元素的第一个子元素的上边距margin-top如果碰不到有效的border或者padding.
+    就会不断一层一层的找自己 “领导”(父元素，祖先元素)的麻烦。只要给领导设置个有效的
+    border或者padding就可以有效的管制这个目无领导的margin防止它越级，假传圣旨，把自己的margin当领导的margin执行。
+    对于垂<em>直外边距合并</em>的解决方案上面已经解释了，为父元素例子中的middle元素增加一个border-top或者padding-top即可解决这个问题。</span></p>
+
+</body>
+</html>

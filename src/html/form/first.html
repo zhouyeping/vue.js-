@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-size:14px;
+    }
+    ul,li{
+      list-style: none;
+      position: relative;
+    }
+    button{
+      border:none;
+    }
+    .addConfirm{
+      background: #2c75ff;
+      color:white;
+    }
+    input{
+      border:1px solid silver;
+      outline:none;
+    }
+    input[type=text],input[type=password]{
+      width:300px;
+      height: 40px;
+      margin-bottom:24px;
+      padding-left:30px
+    }
+    .all{
+      width: 420px;
+      margin:50px auto;
+    }
+    .code{
+      height: 40px;
+      width: 100px;
+      margin-left:10px
+    }
+    .confirm{
+      width:300px;
+      height: 40px;
+      margin:20px auto;
+
+    }
+    .confirm:hover{
+      cursor:not-allowed;
+    }
+    input[type=checkbox]{
+      vertical-align:middle;
+    }
+    label{
+      vertical-align:middle;
+      padding-left:2px;
+    }
+    .icon{
+      position: absolute;
+      top:10px;
+      left: 10px;
+      font-size:17px !important;
+    }
+    ul>li:nth-of-type(4)>input[type=text]{
+      padding-left: 60px;
+    }
+    input[type=text]:hover,input[type=password]:hover{
+      border-color: #2dbee6;
+    }
+    .before{
+      position: absolute;;
+      left:25px;
+      top:9px;
+      font-size: 16px;
+    }
+    .prompt{
+      display: none;
+      position: absolute;
+      top:42px;
+      left:0;
+      color:red;
+    }
+    .prompt>span{
+      display: block;
+    }
+    .beSee{
+      position:absolute;
+      right:125px;
+      top:10px;
+      height: 20px;
+      width: 20px;
+    }
+  </style>
+  <link href="css/iconfont.css" rel="stylesheet">
+</head>
+<body>
+<div class="all">
+  <form action="" method="get" class="formuser" onsubmit="false">
+    <ul>
+      <li>
+        <input type="text" placeholder="输入账号名" id="userId"/>
+        <span class="iconfont icon">&#xf00ec;</span>
+        <div class="prompt">
+          <span>*账号名长度要在4-20位之间</span>
+        </div>
+      </li>
+      <li>
+        <input type="password" placeholder="输入密码" id="userPsw"/>
+        <span class="iconfont icon">&#xf00c9;</span>
+        <div class="prompt">
+          <span>*密码长度要在7-20位之间</span>
+          <span>*密码中要包含数字、字母、字符</span>
+        </div>
+        <img src="img/eye1.png" class="beSee" id="psw"/>
+      </li>
+      <li>
+        <input type="password" placeholder="再次输入密码" id="confirmPsw"/>
+        <span class="iconfont icon">&#xf00c9;</span>
+        <div class="prompt">
+          <span>*确认密码不能为空！</span>
+          <span>两次密码不一致！</span>
+        </div>
+        <img src="img/eye1.png" class="beSee" id="repeatPsw"/>
+      </li>
+      <li>
+        <span class="before">+86</span>
+        <input type="text" placeholder="输入常用手机号" id="tel"/>
+        <span class="iconfont icon">&#xf00e5;</span>
+        <div class="prompt">
+          <span>*手机号不能为空！</span>
+        </div>
+      </li>
+      <li>
+        <span class="iconfont icon">&#xf0102;</span>
+        <input type="text" placeholder="收入6位验证码" id="code"/>
+        <button class="code">发送验证码</button>
+        <div class="prompt">
+          <span>*验证码不能为空！</span>
+        </div>
+      </li>
+      <li>
+        <input type="checkbox" id="confirm" class="choose"/>
+        <label for="confirm" class="read">我已阅读并同意
+          <a href="#">《隐私政策》</a>
+          <a href="#">《京东服务协议》</a>
+        </label>
+      </li>
+    </ul>
+    <input type="submit" class="confirm" value="同意协议并注册"/>
+  </form>
+</div>
+<script>
+  var choose = document.getElementsByClassName("choose")[0];
+  var prompt = document.getElementsByClassName("prompt");
+  var confirm = document.getElementsByClassName("confirm")[0];
+  var inputList = document.getElementsByTagName("input");
+  var beSee = document.getElementsByClassName("beSee");
+  var formuser = document.getElementsByClassName("formuser")[0];
+  for(var j=0;j<beSee.length;j++){
+    beSee[j].onclick = function () {
+      var destInput = "";
+      for(var i=0;i<inputList.length-2;i++){
+        if(this.id=="psw"){
+          destInput="userPsw";
+        }
+        else{
+          destInput="confirmPsw"
+        }
+        if(inputList[i].id==destInput){
+          if(inputList[i].type=="password"){
+            this.src = "img/eye.png";
+            inputList[i].type="text";
+          }else{
+            this.src = "img/eye1.png";
+            inputList[i].type="password";
+          }
+          break;
+        }
+      }
+    }
+  }
+  var blurAvent = {
+    userId:function () {
+      if(this.value.length<4){
+        console.log(1)
+        prompt[this.index].style.display = "block";
+      }else{
+        prompt[this.index].style.display = "none";
+      }
+    },
+    userPsw:function () {
+      if(this.value.length<7 || this.value.length>20){
+        prompt[this.index].style.display="block";
+        prompt[this.index].children[0].style.display="block";
+        prompt[this.index].children[1].style.display="none";
+      }else{
+        var reg1=/\d+/;
+        var reg2=/[a-zA-Z]+/;
+        var reg3 = /[_?/>.'"!@$%^&().]+/
+        if(this.value.match(reg1)==null || this.value.match(reg2)==null || this.value.match(reg3)==null){
+          prompt[this.index].style.display="block";
+          prompt[this.index].children[1].style.display="block";
+          prompt[this.index].children[0].style.display="none";
+        }else{
+          prompt[this.index].style.display="none"
+        }
+      }
+    },
+    confirmPsw:function () {
+      for(var i=0;i<inputList.length-2;i++){
+        if(this.value.length!==0){
+          if(inputList[i].id=="userPsw"){
+            if(this.value!=inputList[i].value){
+              prompt[this.index].style.display="block";
+              prompt[this.index].children[1].style.display="block";
+              prompt[this.index].children[0].style.display="none";
+            }else{
+              prompt[this.index].style.display="none";
+            }
+            break;
+          }
+        }else{
+          prompt[this.index].style.display="block";
+          prompt[this.index].children[0].style.display="block";
+          prompt[this.index].children[1].style.display="none";
+          break;
+        }
+      }
+    },
+    tel:function () {
+      var reg = /^1[35789]{1}\d{9}$/;
+      if(this.value.match(reg)!=null){
+        prompt[this.index].style.display="none";
+      }else{
+        prompt[this.index].style.display="block";
+      }
+    },
+    code:function () {
+      if(!this.value.length){
+        prompt[this.index].style.display="block";
+      }else{
+        prompt[this.index].style.display="none";
+      }
+    }
+  };
+  choose.onclick=function () {
+    if(this.checked){
+      confirm.className="addConfirm confirm";
+      confirm.style.cursor="pointer"
+    }else{
+      confirm.className="confirm";
+      confirm.style.cursor="not-allowed"
+    }
+  };
+  formuser.onsubmit=function () {
+
+    if(inputList[inputList.length-2].checked){
+      for(var i=0;i<inputList.length-2;i++){
+        inputList[i].focus();
+      }
+      confirm.focus();
+      for(var j=0;j<prompt.length;j++){
+        if(prompt[j].style.display=="block"){
+          return false;
+        }
+      }
+      return true;
+    }else{
+      return false;
+    }
+  };
+  for(var i=0;i<inputList.length-2;i++){
+    inputList[i].index = i;
+    inputList[i].onblur = function () {
+      /*在 blurAvent[this.id]中使用this时为将当前input对象*/
+      blurAvent[this.id].call(this);
+    }
+  }
+</script>
+</body>
+</html>
